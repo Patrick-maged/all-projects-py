@@ -1,0 +1,58 @@
+import random
+
+class War_game():
+
+    def __init__(self):
+        self.__damage=0
+        self._home=""
+        self._health=100
+
+    def recived_damage(self):
+        self._health-=self.__damage
+        if self.__damage >= self._health:
+            self.set_health(0)
+    def is_dead(self):
+        if self._health == 0:
+            return True
+        else :
+            return False
+
+    def set_home(self,home):
+        self._home=home
+
+    def get_home(self):
+        return self._home
+
+    def set_health(self,health):
+        self._health=health
+
+    def get_health(self):
+        return self._health
+
+    def set_damage(self,damage):
+        self.__damage=damage
+
+    def get_damage(self):
+        return self.__damage
+
+
+
+
+
+align1=War_game()
+align2=War_game()
+align1.set_home('mars')
+align2.set_home('mercury')
+while not align1.is_dead() and not align2.is_dead():
+    align1.set_damage(random.randint(10,50))
+    align2.set_damage(random.randint(10,50))
+    align1.recived_damage()
+    align2.recived_damage()
+    print(f"align 2 health {align2.get_health()}")
+    if align2.is_dead() :
+        break
+    print(f"align 1 health {align1.get_health()}")
+if align2.is_dead():
+    print(f"align 2 lose From {align2.get_home()} home")
+elif align1.is_dead():
+    print(f"align 1 is lose From {align1.get_home()} home")
