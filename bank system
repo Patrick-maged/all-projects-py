@@ -1,0 +1,130 @@
+class bank():
+
+    def __init__(self):
+        self._Account_no=0
+        self._Client_Name=""
+        self._balance=0
+        self._interest_rate=0.05
+
+
+    def get_account_no(self):
+        return self._Account_no
+    def Change_account_no(self, Account_no:int):
+        self._Account_no= Account_no
+    def set_balance(self,balance:int):
+        self._balance=balance
+    def get_balance(self):
+        return self._balance
+
+
+
+class client():
+
+    def __init__(self, client_name, salary):
+        self.client = client_name
+        self.Estimated_salary = salary
+        self.bank_account = bank()
+        self.bank_account.Change_account_no(1)
+        self.bank_account.set_balance(0)
+
+    def is_vip(self):
+        if self.bank_account.get_balance() > 50000:
+            return True
+        else:
+            return False
+
+
+Client1 = client("Ahmed", 50000000)
+Client1.bank_account.Change_account_no(1452278)
+Client1.bank_account.set_balance(1452000)
+print(Client1.is_vip())
+
+import unittest
+
+
+class calculator():
+
+    def __init__(self):
+        self.memory=0
+
+
+    def sum(self,x:int,y:int):
+        try:
+            self.memory=x+y
+
+            return self.memory
+        except ValueError as a:
+            print(a)
+        except ArithmeticError as v:
+            print(v)
+        except TypeError as s:
+            print(s)
+        except Exception as c:
+            print(c)
+        else:
+            print("thank you")
+
+    def subtract(self,x:int,y:int):
+        try:
+            self.memory=x-y
+            return self.memory
+        except ValueError as a:
+            print(a)
+        except ArithmeticError as v:
+            print(v)
+        except TypeError as s:
+            print(s)
+        except Exception as c :
+            print(c)
+        else:
+            print("thank you")
+
+
+
+
+    def multiply(self,x:int,y:int):
+        try:
+            self.memory=x*y
+            return self.memory
+        except ValueError as a:
+            print(a)
+        except ArithmeticError as v:
+            print(v)
+        except TypeError as s:
+            print(s)
+        except Exception as c:
+            print(c)
+        else:
+            print("thank you")
+
+    def divide(self,x:int,y:int):
+        try:
+            self.memory=x/y
+            return self.memory
+        except ValueError as a:
+            print(a)
+        except ArithmeticError as v:
+            print(v)
+        except TypeError as s:
+            print(s)
+        except Exception as c:
+            print(c)
+        else:
+            print("thank you")
+
+class Test_calculator(unittest.TestCase):
+    def test_sum(self):
+        self.assertEqual(calculator().sum(1,2),3)
+    def test_divide(self):
+        self.assertEqual(calculator().divide(1,2),1/2)
+    def test_mult(self):
+        self.assertEqual(calculator().multiply(1,2),2)
+    def test_subt(self):
+        self.assertEqual(calculator().subtract(2,1),1)
+
+
+c=calculator()
+print(c.sum(1,2))
+print(c.multiply(1,2))
+print(c.divide(1,1))
+print(c.subtract(2,1))
