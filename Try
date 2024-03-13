@@ -1,0 +1,25 @@
+p="iam 28 years and 10 months"
+result = ''
+for char in p:
+    if char.isdigit():
+        result += char
+
+print(result)
+
+
+num_rows = 5
+row = 1
+while row <= num_rows:
+    col = 1
+    while col <= row:
+        print('*', end=' ')
+        col += 1
+    print()
+    row += 1
+
+adj = ["red", "big", "tasty"]
+fruits = ["apple", "banana", "cherry"]
+
+for fruit in fruits:
+    for adjective in adj:
+        print(adjective, fruit)
