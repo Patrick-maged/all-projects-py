@@ -1,0 +1,11 @@
+def sequence(li):
+    f=[]
+    if len(li)==1:
+        return f
+    else:
+        for i in range(len(li)-1):
+            f.append(li[0])
+            f.append(li[i+1])
+
+        return f+sequence(li[1:])
+print(sequence([1,2,3,4]))
