@@ -1,0 +1,18 @@
+def count_good_digit_strings(n):
+    def backtrack(index):
+        global count
+        if index == n:
+            count += 1
+            return
+        for digit in range(10):
+            if index % 2 == 0 and digit % 2 == 0:
+                backtrack(index + 1)
+            elif index % 2 == 1 and is_prime(digit):
+                backtrack(index + 1)
+
+
+    backtrack(0)
+    return count
+
+n = 1
+print(count_good_digit_strings(n))
