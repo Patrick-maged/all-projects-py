@@ -1,0 +1,27 @@
+class Passenger(object):
+    def __init__(self,PassengerId,Pclass,Name,Sex,Age,Ticket,Embarked,Survived):
+        self.PassengerId=PassengerId
+        self.Pclass=Pclass
+        self.Name=Name
+        self.Sex=Sex
+        self.Age=Age
+        self.Ticket=Ticket
+        self.Embarked=Embarked
+        self.Survived=Survived
+
+with open('C:\\Users\\pggergis\\Downloads\\Titanic_Data.csv') as l :
+    lines=l.readlines()
+    Passengers=[]
+    for line in lines :
+        cell=line.split(',')
+        PassengerId=cell[0]
+        Pclass=cell[1]
+        Name=cell[2]
+        Sex=cell[3]
+        Age=cell[4]
+        Ticket=cell[5]
+        Embarked=cell[6]
+        Survived=cell[7]
+        passenger=Passenger(PassengerId,Pclass,Name,Sex,Age,Ticket,Embarked,Survived)
+        Passengers.append(passenger)
+print(Passengers[1].Name)
