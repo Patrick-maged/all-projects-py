@@ -1,0 +1,141 @@
+import random
+
+start= open("final.txt","r")
+for n in start:
+  print(n)
+start.close()
+possibleLetters = ["A","B","C","D","E","F","G"]
+gameBoard = [["","","","","","",""], ["","","","","","",""], ["","","","","","",""], ["","","","","","",""], ["","","","","","",""], ["","","","","","",""]]
+
+rows = 6
+cols = 7
+
+def printGameBoard():
+  print("\n     A    B    C    D    E    F    G  ", end="")
+  for x in range(rows):
+    print("\n   +----+----+----+----+----+----+----+")
+    print(x, " |", end="")
+    for y in range(cols):
+      if(gameBoard[x][y] == "🔵"):
+        print("",gameBoard[x][y], end=" |")
+      elif(gameBoard[x][y] == "🔴"):
+        print("", gameBoard[x][y], end=" |")
+      else:
+        print(" ", gameBoard[x][y], end="  |")
+  print("\n   +----+----+----+----+----+----+----+")
+
+def modifyArray(spacePicked, turn):
+  gameBoard[spacePicked[0]][spacePicked[1]] = turn
+
+def checkForWinner(chip):
+  ### Check horizontal spaces
+  for y in range(rows):
+    for x in range(cols - 3):
+      if gameBoard[x][y] == chip and gameBoard[(x+1)%6][y%7] == chip and gameBoard[(x+2)%6][y%7] == chip and gameBoard[(x+3)%6][y%7] == chip:
+        print("\n The winner is", chip,"Good Job")
+        return True
+
+  ### Check vertical spaces
+  for x in range(rows):
+    for y in range(cols - 3):
+      if gameBoard[x][y] == chip and gameBoard[x][y+1] == chip and gameBoard[x][y+2] == chip and gameBoard[x][y+3] == chip:
+        print("\nGame over", chip, "wins! Thank you for playing :)")
+        return True
+
+  ### Check upper right to bottom left diagonal spaces
+  for x in range(rows - 3):
+    for y in range(3, cols):
+      if gameBoard[x][y] == chip and gameBoard[x+1][y-1] == chip and gameBoard[x+2][y-2] == chip and gameBoard[x+3][y-3] == chip:
+        print("\nGame over", chip, "wins! Thank you for playing :)")
+        return True
+
+  ### Check upper left to bottom right diagonal spaces
+  for x in range(rows - 3):
+    for y in range(cols - 3):
+      if gameBoard[x][y] == chip and gameBoard[x+1][y+1] == chip and gameBoard[x+2][y+2] == chip and gameBoard[x+3][y+3] == chip:
+        print("\nGame over", chip, "wins! Thank you for playing :)")
+        return True
+  return False
+
+def coordinate_seprartor(String):
+  coordinate = [None] * 2
+  if(String[0] == "A"):
+    coordinate[1] = 0
+  elif(String[0] == "B"):
+    coordinate[1] = 1
+  elif(String[0] == "C"):
+    coordinate[1] = 2
+  elif(String[0] == "D"):
+    coordinate[1] = 3
+  elif(String[0] == "E"):
+    coordinate[1] = 4
+  elif(String[0] == "F"):
+    coordinate[1] = 5
+  elif(String[0] == "G"):
+    coordinate[1] = 6
+  else:
+    print("Invalid")
+  coordinate[0] = int(String[1])
+  return coordinate
+
+def Free_space(targeted_Coordinate):
+  if(gameBoard[targeted_Coordinate[0]][targeted_Coordinate[1]] == '🔴'):
+    return False
+  elif(gameBoard[targeted_Coordinate[0]][targeted_Coordinate[1]] == '🔵'):
+    return False
+  else:
+    return True
+
+def is_the_space_below_is_empty(targeted_Coordinate):
+  ### Calculate space below
+  spaceBelow = [None] * 2
+  spaceBelow[0] = targeted_Coordinate[0] + 1
+  spaceBelow[1] = targeted_Coordinate[1]
+  ### Is the coordinate at ground level
+  if(spaceBelow[0] == 6):
+    return True
+  ### Check if there's a token below
+  if(Free_space(spaceBelow) == False):
+    return True
+  return False
+
+leaveLoop = False
+turnCounter = 0
+while(leaveLoop == False):
+  if(turnCounter % 2 == 0):
+    printGameBoard()
+    while True:
+      spacePicked = input("\nChoose a space: ")
+      coordinate = coordinate_seprartor(spacePicked)
+        ### Check if the space is available
+      try:
+        if(Free_space(coordinate) and is_the_space_below_is_empty(coordinate)):
+          modifyArray(coordinate, '🔵')
+          break
+        else: Free_space(coordinate) and (is_the_space_below_is_empty(coordinate)==False)
+        print("PUT IN THE RIGHT SPACE, YOUR INPUT IS INVALID")
+      except: print("WRONG INPUT OUT OF RANGE.")
+    winner = checkForWinner('🔵')
+    turnCounter += 1
+  ### It's the computers turn
+  else:
+    while True:
+      cpuChoice = [random.choice(possibleLetters), random.randint(0,5)]
+      cpuCoordinate = coordinate_seprartor(cpuChoice)
+      if(Free_space(cpuCoordinate) and is_the_space_below_is_empty(cpuCoordinate)):
+        modifyArray(cpuCoordinate, '🔴')
+        break
+    turnCounter += 1
+    winner = checkForWinner('🔴')
+
+  if(winner):
+    printGameBoard()
+    break
+computer_win=0
+human=0
+if winner=='🔴':
+  computer_win+=1
+  print("Computer wins=",computer_win)
+else:
+  human+=1
+  print("human wins=",human)
