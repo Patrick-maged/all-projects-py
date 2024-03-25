@@ -1,0 +1,33 @@
+import json
+
+class degree(object):
+    def __init__(self, DegreeType, CourseTitle, InstitutionName, CityName):
+        self.DegreeType = DegreeType
+        self.CourseTitle = CourseTitle
+        self.InstitutionName = InstitutionName
+        self.CityName = CityName
+
+    def __dict__(self):
+        return {
+            'DegreeType': self.DegreeType,
+            'CourseTitle': self.CourseTitle,
+            'InstitutionName': self.InstitutionName,
+            'CityName': self.CityName,
+        }
+
+with open('C:\\Users\\pggergis\\Downloads\\daad_international_master_programs.csv') as file:
+    lines = file.readlines()
+    DRS = []
+    for line in lines:
+        cells = line.split(',')
+        DegreeType = cells[0]
+        CourseTitle = cells[1]
+        InstitutionName = cells[2]
+        CityName = cells[3]
+        DR = degree(DegreeType, CourseTitle, InstitutionName, CityName)
+        DRS.append(DR)
+
+with open('output.json', 'w') as output:
+    json_objects = [degree.__dict__() for degree in DRS]
+    json_string=json.dumps( {"DEGREES": json_objects})
+    output.write(json_string)
