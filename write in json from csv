@@ -1,0 +1,35 @@
+import json
+class Menu(object):
+    def __init__(self,drink_type,price_small,price_medium,price_large):
+        self.drink_type=drink_type
+        self.price_small=price_small
+        self.price_medium=price_medium
+        self.price_large=price_large
+    def __dict__(self):
+        return {
+            'drink_type':self.drink_type,
+            'price_small' : self.price_small,
+            'price_medium' : self.price_medium,
+            'price_large' : self.price_large
+        }
+
+with open('C:\\Users\\Patrick Maged\\Downloads\\archive (6)\\prices.csv') as f:
+    lines=f.readlines()
+    menu_s=[]
+    for line in lines:
+        cells=line.split(',')
+        drink_type=cells[0]
+        price_small=cells[1]
+        price_medium=cells[2]
+        price_large=cells[3]
+        m=Menu(drink_type,price_small,price_medium,price_large)
+        menu_s.append(m)
+for menu in menu_s:
+    print(f'{menu.drink_type}, {menu.price_small}, {menu.price_medium}, {menu.price_large}')
+with open('out.csv','w') as k:
+    for menu in menu_s:
+        k.write(f'{menu.drink_type}, {menu.price_small}, {menu.price_medium}, {menu.price_large}\n')
+with open('r.json','w') as l:
+    strs=[json.dumps(m.__dict__())for m in menu_s[1:]]
+    s = '{"Menu": [%s]}' % (','.join(strs))
+    l.write(s)
