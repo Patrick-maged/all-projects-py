@@ -1,0 +1,18 @@
+import csv
+with open('C:\\Users\\pggergis\\Desktop\\lab.csv','w', newline= '') as f :
+    writer=csv.writer(f)
+    writer.writerow(['john smith','52'])
+    writer.writerow(['mohamed salah','30'])
+import glob
+# b
+glob.glob('temp/*.txt')
+# c
+glob.glob("temp/?.txt")
+# d
+glob.glob("temp/???.*")
+# e
+# ['temp/1.txt']
+# ['temp/12.jpg']
+# ['temp/dir/987.jpg']
+# ['temp/12.jpg', 'temp/aaa.jpg', 'temp/dir/987.jpg', 'temp/dir/sub_dir1/ccc.jpg', 'temp/dir/sub_dir2/ddd.jpg']
+# the first will get all the names of files with extension .csv but the second will get any name=='name' with any extension
