@@ -1,0 +1,34 @@
+class Actress(object):
+    def __init__(self,year,name,AGE,movie):
+        self.year=year
+        self.name=name
+        self.age=AGE
+        self.movie=movie
+
+
+ with open('C:\\Users\\Pggergis\\Downloads\\database.csv') as file:
+     lines=file.readlines()
+     actresses=list()
+     for line in lines:
+         cells= line.split(',')
+         year=cells[1]
+         name=cells[3]
+         movie=cells[4]
+         actress= Actress(year,name,movie)
+         actresses.append(actress)
+import json
+with open('C:\\Users\\Pggergis\\Downloads\\g.json') as f :
+    data=f.read()
+    actresses_dict=json.loads(data)
+    actresses1=[]
+    for actress in actresses_dict['actresses'] :
+        actresses1.append(Actress(actress['year'],
+                                  actress['age'],
+                                  actress['name'],
+                                  actress['movie']))
+        print(actress)
+with open('output.csv','a') as output:
+    string='year,age,name,movie\n'
+    for actress in actresses1:
+        string+=f'{actress.year},{actress.age},{actress.name},{actress.movie}\n'
+    output.write(string)
