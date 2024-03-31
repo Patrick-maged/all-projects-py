@@ -1,0 +1,58 @@
+import datetime
+from collections import deque
+class Article:
+    def __init__(self,art_id:int,title:str,date:datetime,category:str,url:str):
+        self.art_id=art_id
+        self.title=title
+        self.date=date
+        self.category=category
+        self.url=url
+    def set_ArtId(self,art_id):
+        self.art_id=art_id
+    def get_art_id(self):
+        return self.art_id
+    def set_title(self,title):
+        self.title=title
+    def get_title(self):
+        return self.title
+    def set_date(self,date):
+        self.date=date
+    def get_date(self):
+        return self.date
+    def set_category(self,category):
+        self.category=category
+    def get_category(self):
+        return self.category
+    def set_url(self,url):
+        self.url=url
+    def get_url(self):
+        return self.url
+    def __str__(self):
+        return (f"Article:{self.get_title()},date:{self.get_date()} category:{self.get_category()}\""
+                f"url:{self.get_url()}")
+article1=Article(1,'GRAND',datetime.date(2021,3,14),"arts","www.ahmed")
+article2=Article(2,'GRAND2',datetime.date(2021,3,14),"arts2","www.ahmed2")
+article3=Article(3,'GRAND3',datetime.date(2021,3,14),"arts3","www.ahmed3")
+articles=deque()
+articles.append(article2)
+articles.appendleft(article1)
+articles.append(article3)
+# articles.rotate(-1)
+articles.reverse()
+print(articles[0])
+def remove_smallest(deq):
+    smallest = deq[0]
+    Sum = 0
+    for i in range(len(deq)):
+        Sum += deq[i]
+    for i in deq:
+        if i < smallest and i > 0:
+            smallest = i
+    deq.remove(smallest)
+
+    return deq, Sum
+
+
+
+de=deque([2,1,-2,-3])
+print(remove_smallest(de))
