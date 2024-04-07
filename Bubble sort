@@ -1,0 +1,24 @@
+def Bubble_sort(list):
+    for i in range(len(list)-1,0,-1):
+        for j in range(i):
+            if list[j]>list[j+1]:
+                list[j],list[j+1]=list[j+1],list[j]
+    return list
+
+def Bub_sort(li):
+    for i in range(len(li)-1):
+        for j in range(len(li)-1):#-1 due to j+1 not to be out of range
+            if list[j] > list[j + 1]:
+                list[j], list[j + 1] = list[j + 1], list[j]
+    return li
+
+def Bubl_Sort(l):
+    for i in range(len(l)):
+        for j in range(len(l)-1-i):
+            if list[j] > list[j + 1]:
+                list[j], list[j + 1] = list[j + 1], list[j]
+    return l
+list=[2,5,4,3,1]
+print(Bubble_sort(list))
+print(Bub_sort(list))
+print(Bubl_Sort(list))
