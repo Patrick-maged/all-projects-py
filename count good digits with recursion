@@ -1,0 +1,25 @@
+def countGoodDigitStrings(n):
+    def isGoodDigitString(digits):
+        for i in range(len(digits)):
+            if i % 2 == 0 and int(digits[i]) % 2 != 0:
+                return False
+            if i % 2 == 1 and int(digits[i]) not in [2, 3, 5, 7]:
+                return False
+        return True
+
+    def generateDigitStrings(current, length):
+        if length == 0:
+            if isGoodDigitString(current):
+                return 1
+            else:
+                return 0
+        count = 0
+        for digit in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            count += generateDigitStrings(current + digit, length - 1)
+        return count
+
+    return generateDigitStrings("", n)
+
+# Testing the function
+n = 1
+print(countGoodDigitStrings(n))  # Output: 5
