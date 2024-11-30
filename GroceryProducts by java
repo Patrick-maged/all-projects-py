@@ -1,0 +1,170 @@
+import java.util.*;
+
+public abstract class GroceryProduct {
+    private String name;
+    private double price;
+    private double discount;
+
+
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name=name;
+    }
+    public double getPrice() {
+        return this.price;
+    }
+    public void setPrice(double price) {
+        this.price=price;}
+    public void setDiscount(double discount) {
+        this.discount=discount;}
+    public double getDiscount(){
+        return this.discount;
+    }
+
+    public GroceryProduct(String name, double price , double discount){
+        this.name=name;
+        this.discount=discount;
+        this.price=price;
+    }
+    double getActualPrice(){
+        return price-(price*(discount/100));
+    }
+    public String toString(){
+        return "Product Name: "+name+"\n price: "+price+" L.E"+"\n Discount: "+ discount+"%";
+    }
+    public abstract boolean refrigerate();
+
+}
+
+class DairyProduct extends GroceryProduct {
+    public enum FatLevel { FULLCREAM, HALFCREAM, SKIMMED }
+    private FatLevel fatLevel;
+    public DairyProduct(String name,double price , double discount,FatLevel fatLevel){
+        super(name,price,discount);
+        this.fatLevel=fatLevel;
+    }
+    public void setFatLevel(FatLevel fatLevel){
+        this.fatLevel=fatLevel;
+    }
+    public FatLevel getFatLevel(){
+        return this.fatLevel;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DairyProduct that = (DairyProduct) o;
+        return this.getName().equals(that.getName()) &&
+                this.getPrice() == that.getPrice() &&
+                this.getDiscount() == that.getDiscount() &&
+                this.fatLevel == that.fatLevel;
+    }
+    @Override
+    public String toString(){
+        return super.toString()+"\nfat level: "+fatLevel.name();
+    }
+    public boolean refrigerate(){
+        return true;
+    }
+}
+abstract class Beverage extends GroceryProduct implements Drinkable{
+    public enum SugarLevel { LIGHT, ZERO, ADDED_SUGAR, NO_ADDED_SUGAR}
+    private SugarLevel sugarLevel;
+    public Beverage(String name,double price , double discount,SugarLevel sugarLevel){
+        super(name,price,discount);
+        this.sugarLevel=sugarLevel;
+    }
+    public void setSugarLevel(SugarLevel sugarLevel){
+        this.sugarLevel=sugarLevel;
+    }
+    public SugarLevel getSugarLevel(){
+        return this.sugarLevel;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Beverage beverage = (Beverage) o;
+        return this.getName().equals(beverage.getName()) &&
+                this.getPrice() == beverage.getPrice() &&
+                this.getDiscount() == beverage.getDiscount() &&
+                this.sugarLevel == beverage.sugarLevel;
+    }
+    @Override
+    public String toString(){
+        return super.toString()+"\nSugar level: "+sugarLevel.name();
+    }
+    public boolean refrigerate(){
+        return false;
+    }
+    public boolean isHealthy() {
+        return this.sugarLevel != SugarLevel.ADDED_SUGAR;
+    }
+}
+class Cart{
+    public ArrayList<GroceryProduct> products;
+    public Cart(){
+        products=new ArrayList<>();
+    }
+    void addProduct(GroceryProduct product){
+        products.add(product);
+    }
+    double getTotal() {
+        double total = 0.0;
+        Iterator<GroceryProduct> iter = products.iterator();
+        while (iter.hasNext()) {
+            GroceryProduct product = iter.next();
+            total += product.getActualPrice();
+        }
+        return total;
+    }
+    public String toString() {
+        String Details = "";
+        Iterator<GroceryProduct> iterator = products.iterator();
+        while (iterator.hasNext()) {
+            GroceryProduct product = iterator.next();
+            Details += product.toString() + "\n------------------------\n";
+        }
+        return Details;
+    }
+
+}
+interface Drinkable {
+    boolean isHealthy();
+}
+class PowerDrink extends Beverage {
+    public PowerDrink(String name, double price, double discount, SugarLevel sugarLevel) {
+        super(name, price, discount, sugarLevel);
+    }
+
+    @Override
+    public boolean isHealthy() {
+        return getSugarLevel() == SugarLevel.NO_ADDED_SUGAR;
+    }
+}
+
+class SoftDrink extends Beverage {
+    public SoftDrink(String name, double price, double discount, SugarLevel sugarLevel) {
+        super(name, price, discount, sugarLevel);
+    }
+
+    @Override
+    public boolean isHealthy() {
+        return getSugarLevel() == SugarLevel.LIGHT || getSugarLevel() == SugarLevel.ZERO;
+    }
+}
+class codeUnderstanding{
+    public static void main(String[] args){
+        GroceryProduct sprite = new SoftDrink("Sprite", 10, 5, Beverage.SugarLevel.ADDED_SUGAR);// Creates an object of type SoftDrink, but it is referenced as a GroceryProduct (polymorphism)
+        Beverage sprite2 = new SoftDrink("Sprite", 10, 5, Beverage.SugarLevel.LIGHT);// Creates an object of type SoftDrink, but it is referenced as a Beverage (polymorphism)
+        System.out.println(sprite.equals(sprite2));//false (because the sugarLevel values are different)
+        System.out.println(sprite2.getActualPrice());//10−(10×(5/100))=10−0.5=9.5
+        System.out.println(((Beverage)sprite).getActualPrice());//Casting sprite to Beverage allows access to getActualPrice() output: 10−(10×(5/100))=10−0.5=9.5
+        System.out.println(sprite.refrigerate());//For SoftDrink refrigerate() returns false (as defined in Beverage)
+        Drinkable d = sprite2;// Creates a reference of type Drinkable, pointing to the object referenced by sprite2 The object itself is of type SoftDrink, which implements the Drinkable interface.
+        System.out.println(d.isHealthy());//For sprite2, the sugarLevel is LIGHT, which is considered healthy output: true
+
+    }
+}
